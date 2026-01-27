@@ -1,0 +1,136 @@
+{% comment %}
+  Sección original para Portfolio: Hero de Café de Especialidad con AJAX y Metafields.
+{% endcomment %}
+
+{{ 'cafe-brand.css' | asset_url | stylesheet_tag }}
+
+<section class="cafe-hero" style="background-color: {{ section.settings.bg_color }};">
+  <div class="cafe-container">
+    
+    <div class="cafe-content">
+      <span class="cafe-badge">{{ section.settings.badge_text }}</span>
+      <h1 class="cafe-title">{{ section.settings.title }}</h1>
+      <div class="cafe-description">{{ section.settings.description }}</div>
+
+      {%- assign product = section.settings.featured_product -%}
+      
+      {%- if product != blank -%}
+        <div class="cafe-quick-buy">
+          <h2 class="product-name">{{ product.title }}</h2>
+          <p class="product-price">{{ product.price | money }}</p>
+
+          {% comment %} Datos de Metafields (Origen y Tueste) {% endcomment %}
+          <div class="cafe-meta-info">
+            {% if product.metafields.custom.origen != blank %}
+              <p>📍 <strong>Origen:</strong> {{ product.metafields.custom.origen }}</p>
+            {% endif %}
+          </div>
+
+          {% comment %} Selector de Variantes estilo Pill {% endcomment %}
+          <div class="variant-pills" id="variant-selector-{{ section.id }}">
+            <p><small>Selecciona el tipo de molido:</small></p>
+            <div class="pills-flex">
+              {% for variant in product.variants %}
+                <label class="pill-item">
+                  <input type="radio" name="id" value="{{ variant.id }}" {% if forloop.first %}checked{% endif %}>
+                  <span class="pill-label">{{ variant.title }}</span>
+                </label>
+              {% endfor %}
+            </div>
+          </div>
+
+          <button type="button" class="cafe-add-button" onclick="addCafeToCart(this)">
+            Añadir al Carrito
+          </button>
+        </div>
+      {%- else -%}
+        <p>Selecciona un producto en el editor para ver esta sección.</p>
+      {%- endif -%}
+    </div>
+
+    <div class="cafe-image-wrapper">
+      {%- if product.featured_image != blank -%}
+        <img src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.title }}" class="cafe-main-img">
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+<script>
+function addCafeToCart(button) {
+  const container = button.closest('.cafe-quick-buy');
+  const variantId = container.querySelector('input[name="id"]:checked').value;
+
+  let formData = {
+    'items': [{
+      'id': variantId,
+      'quantity': 1
+    }]
+  };
+
+  button.innerText = 'Agregando...';
+  button.disabled = true;
+
+  fetch(window.Shopify.routes.root + 'cart/add.js', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData)
+  })
+  .then(response => response.json())
+  .then(data => {
+    button.innerText = '¡Añadido!';
+    setTimeout(() => {
+      button.innerText = 'Añadir al Carrito';
+      button.disabled = false;
+    }, 2000);
+    // Disparar evento para que el mini-cart de Dawn se actualice si existe
+    document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+    button.innerText = 'Error';
+  });
+}
+</script>
+
+{% schema %}
+{
+  "name": "Café Hero Especial",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Etiqueta superior",
+      "default": "Tostado localmente"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Despierta tus sentidos"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Descripción corta"
+    },
+    {
+      "type": "product",
+      "id": "featured_product",
+      "label": "Producto de café"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Color de fondo",
+      "default": "#fdfaf7"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Café Hero Especial"
+    }
+  ]
+}
+{% endschema %}
