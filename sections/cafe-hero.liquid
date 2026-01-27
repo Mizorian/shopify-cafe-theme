@@ -1,59 +1,66 @@
 {% comment %}
-  Sección original para Portfolio: Hero de Café de Especialidad con AJAX y Metafields.
+  Sección Profesional: Café Hero con AJAX, Metafields y Diseño Boutique.
 {% endcomment %}
 
 {{ 'cafe-brand.css' | asset_url | stylesheet_tag }}
 
-<section class="cafe-hero" style="background-color: {{ section.settings.bg_color }};">
-  <div class="cafe-container">
+<section class="cafe-hero-section" style="background-color: {{ section.settings.bg_color }};">
+  <div class="cafe-hero-wrapper">
     
-    <div class="cafe-content">
-      <span class="cafe-badge">{{ section.settings.badge_text }}</span>
-      <h1 class="cafe-title">{{ section.settings.title }}</h1>
-      <div class="cafe-description">{{ section.settings.description }}</div>
+    <div class="cafe-hero-info">
+      <span class="cafe-eyebrow">{{ section.settings.badge_text }}</span>
+      <h1 class="cafe-hero-title">{{ section.settings.title }}</h1>
+      <div class="cafe-hero-desc">{{ section.settings.description }}</div>
 
       {%- assign product = section.settings.featured_product -%}
       
       {%- if product != blank -%}
-        <div class="cafe-quick-buy">
-          <h2 class="product-name">{{ product.title }}</h2>
-          <p class="product-price">{{ product.price | money }}</p>
+        <div class="cafe-product-card">
+          <h2 class="cafe-product-title">{{ product.title }}</h2>
+          <p class="cafe-product-price">{{ product.price | money }}</p>
 
-          {% comment %} Datos de Metafields (Origen y Tueste) {% endcomment %}
-          <div class="cafe-meta-info">
+          <div class="cafe-badges-container">
             {% if product.metafields.custom.origen != blank %}
-              <p>📍 <strong>Origen:</strong> {{ product.metafields.custom.origen }}</p>
+              <span class="cafe-badge-item">📍 {{ product.metafields.custom.origen }}</span>
             {% endif %}
             {% if product.metafields.custom.tueste != blank %}
-                <p>🔥 <strong>Tueste:</strong> {{ product.metafields.custom.tueste }}</p>
+              <span class="cafe-badge-item">🔥 {{ product.metafields.custom.tueste }}</span>
             {% endif %}
           </div>
 
-          {% comment %} Selector de Variantes estilo Pill {% endcomment %}
-          <div class="variant-pills" id="variant-selector-{{ section.id }}">
-            <p><small>Selecciona el tipo de molido:</small></p>
-            <div class="pills-flex">
-              {% for variant in product.variants %}
-                <label class="pill-item">
-                  <input type="radio" name="id" value="{{ variant.id }}" {% if forloop.first %}checked{% endif %}>
-                  <span class="pill-label">{{ variant.title }}</span>
-                </label>
-              {% endfor %}
+          {% if product.available %}
+            <div class="cafe-variants-picker">
+              <p class="picker-label">Selecciona tu molido:</p>
+              <div class="pills-grid">
+                {% for variant in product.variants %}
+                  <div class="pill-option">
+                    <input type="radio" id="var-{{ variant.id }}" name="variant_id" value="{{ variant.id }}" {% if forloop.first %}checked{% endif %}>
+                    <label for="var-{{ variant.id }}">{{ variant.title }}</label>
+                  </div>
+                {% endfor %}
+              </div>
             </div>
-          </div>
 
-          <button type="button" class="cafe-add-button" onclick="addCafeToCart(this)">
-            Añadir al Carrito
-          </button>
+            <button type="button" class="cafe-btn-primary" onclick="addCafeToCart(this)">
+              <span class="btn-text">Añadir a la molienda</span>
+              <div class="btn-loader"></div>
+            </button>
+          {% else %}
+            <div class="cafe-out-of-stock">Este café está reposando (Agotado)</div>
+          {% endif %}
         </div>
       {%- else -%}
-        <p>Selecciona un producto en el editor para ver esta sección.</p>
+        <div class="cafe-placeholder-msg">Selecciona un producto en el panel de Shopify para activar la sección.</div>
       {%- endif -%}
     </div>
 
-    <div class="cafe-image-wrapper">
+    <div class="cafe-hero-media">
       {%- if product.featured_image != blank -%}
-        <img src="{{ product.featured_image | img_url: '800x' }}" alt="{{ product.title }}" class="cafe-main-img">
+        <div class="image-container">
+          <img src="{{ product.featured_image | img_url: '1000x' }}" alt="{{ product.title }}">
+        </div>
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
       {%- endif -%}
     </div>
 
@@ -61,38 +68,28 @@
 </section>
 
 <script>
-function addCafeToCart(button) {
-  const container = button.closest('.cafe-quick-buy');
-  const variantId = container.querySelector('input[name="id"]:checked').value;
-
-  let formData = {
-    'items': [{
-      'id': variantId,
-      'quantity': 1
-    }]
-  };
-
-  button.innerText = 'Agregando...';
-  button.disabled = true;
+function addCafeToCart(btn) {
+  const variantId = document.querySelector('input[name="variant_id"]:checked').value;
+  btn.classList.add('loading');
+  
+  let formData = { 'items': [{ 'id': variantId, 'quantity': 1 }] };
 
   fetch(window.Shopify.routes.root + 'cart/add.js', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(formData)
   })
-  .then(response => response.json())
+  .then(res => res.json())
   .then(data => {
-    button.innerText = '¡Añadido!';
-    setTimeout(() => {
-      button.innerText = 'Añadir al Carrito';
-      button.disabled = false;
-    }, 2000);
-    // Disparar evento para que el mini-cart de Dawn se actualice si existe
+    btn.classList.remove('loading');
+    btn.querySelector('.btn-text').innerText = '¡Añadido con éxito!';
+    setTimeout(() => { btn.querySelector('.btn-text').innerText = 'Añadir a la molienda'; }, 3000);
+    // Actualiza el carrito de Dawn
     document.documentElement.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
   })
-  .catch((error) => {
-    console.error('Error:', error);
-    button.innerText = 'Error';
+  .catch(err => {
+    console.error(err);
+    btn.classList.remove('loading');
   });
 }
 </script>
@@ -101,39 +98,12 @@ function addCafeToCart(button) {
 {
   "name": "Café Hero Especial",
   "settings": [
-    {
-      "type": "text",
-      "id": "badge_text",
-      "label": "Etiqueta superior",
-      "default": "Tostado localmente"
-    },
-    {
-      "type": "text",
-      "id": "title",
-      "label": "Título",
-      "default": "Despierta tus sentidos"
-    },
-    {
-      "type": "richtext",
-      "id": "description",
-      "label": "Descripción corta"
-    },
-    {
-      "type": "product",
-      "id": "featured_product",
-      "label": "Producto de café"
-    },
-    {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Color de fondo",
-      "default": "#fdfaf7"
-    }
+    { "type": "text", "id": "badge_text", "label": "Texto Superior", "default": "Cosecha de Temporada" },
+    { "type": "text", "id": "title", "label": "Título Principal", "default": "El aroma de lo auténtico" },
+    { "type": "richtext", "id": "description", "label": "Descripción", "default": "<p>Tostado artesanalmente en pequeños lotes.</p>" },
+    { "type": "product", "id": "featured_product", "label": "Producto" },
+    { "type": "color", "id": "bg_color", "label": "Color de Fondo", "default": "#fdfaf7" }
   ],
-  "presets": [
-    {
-      "name": "Café Hero Especial"
-    }
-  ]
+  "presets": [{ "name": "Café Hero Especial" }]
 }
 {% endschema %}
