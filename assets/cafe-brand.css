@@ -99,3 +99,24 @@
   .cafe-badges-container { justify-content: center; }
   .pills-grid { justify-content: center; }
 }
+
+/* Unificar Header y Footer con la estética de café */
+.header-wrapper, 
+.footer {
+  background-color: #fdfaf7 !important; /* Fondo crema */
+  border-bottom: 1px solid #e5dcd3;
+  border-top: 1px solid #e5dcd3;
+}
+
+.header__menu-item, 
+.footer__linklist-item a,
+.footer__heading {
+  color: #4a3728 !important; /* Texto marrón café */
+  font-family: 'Assistant', sans-serif;
+}
+
+/* Hacer que el botón de suscripción combine */
+.footer .newsletter-form__button {
+  background-color: #2d1e17 !important;
+  color: white !important;
+}
