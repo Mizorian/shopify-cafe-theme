@@ -24,6 +24,9 @@
             {% if product.metafields.custom.origen != blank %}
               <p>📍 <strong>Origen:</strong> {{ product.metafields.custom.origen }}</p>
             {% endif %}
+            {% if product.metafields.custom.tueste != blank %}
+                <p>🔥 <strong>Tueste:</strong> {{ product.metafields.custom.tueste }}</p>
+            {% endif %}
           </div>
 
           {% comment %} Selector de Variantes estilo Pill {% endcomment %}
