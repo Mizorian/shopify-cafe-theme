@@ -1,28 +1,39 @@
-/* --- VARIABLES Y GLOBAL --- */
+/* --- VARIABLES Y FUENTES --- */
 :root {
   --color-crema: #fdfaf7;
-  --color-cafe-oscuro: #2d1e17;
-  --color-cafe-suave: #4a3728;
+  --color-cafe: #2d1e17;
   --color-acento: #a67c52;
+  --font-titulo: 'Playfair Display', serif;
+  --font-cuerpo: 'Montserrat', sans-serif;
 }
 
-body, .gradient, .header-wrapper, .footer {
+/* --- UNIFICACIÓN GLOBAL --- */
+body, .gradient, .header-wrapper, .footer, .section-header {
   background-color: var(--color-crema) !important;
-  color: var(--color-cafe-oscuro);
+  color: var(--color-cafe);
+  font-family: var(--font-cuerpo);
 }
 
-/* --- HEADER & FOOTER UNIFICADO --- */
 .header-wrapper, .footer { border: none !important; }
-.header__menu-item, .footer__heading, .footer__link {
-  color: var(--color-cafe-suave) !important;
-  text-transform: uppercase;
-  font-size: 13px;
-  letter-spacing: 1px;
+
+/* Logo y Menú */
+.header__heading-link .h2 {
+  font-family: var(--font-titulo);
+  text-transform: lowercase;
+  letter-spacing: 0;
+  font-size: 2.5rem;
 }
 
-/* --- SECCIÓN HERO CLEAN --- */
+.header__menu-item span {
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+}
+
+/* --- SECCIÓN HERO INTRO --- */
 .cafe-hero-clean {
-  min-height: 80vh;
+  min-height: 85vh;
   display: flex;
   align-items: center;
 }
@@ -36,7 +47,7 @@ body, .gradient, .header-wrapper, .footer {
 }
 
 .cafe-hero-content {
-  padding: 10% 8%;
+  padding: 10% 12%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -44,57 +55,70 @@ body, .gradient, .header-wrapper, .footer {
 
 .cafe-label {
   color: var(--color-acento);
-  font-weight: bold;
-  letter-spacing: 3px;
-  font-size: 12px;
-  margin-bottom: 15px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  font-size: 11px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
 }
 
 .cafe-main-title {
-  font-family: serif; /* Cambia a 'Playfair Display' si la importas */
-  font-size: clamp(32px, 5vw, 52px);
-  line-height: 1.1;
+  font-family: var(--font-titulo);
+  font-size: clamp(40px, 6vw, 64px);
+  line-height: 1.05;
   margin-bottom: 25px;
+  font-style: italic; /* Toque de diseño editorial */
 }
 
 .cafe-main-text {
-  font-size: 18px;
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 1.8;
   color: #5a4b3f;
-  margin-bottom: 35px;
+  margin-bottom: 40px;
+  font-weight: 300;
 }
 
 /* --- BOTONES --- */
-.cafe-hero-buttons { display: flex; gap: 15px; }
+.cafe-hero-buttons { display: flex; gap: 20px; align-items: center; }
 
 .cafe-btn-fill {
-  background: var(--color-cafe-oscuro);
+  background: var(--color-cafe);
   color: white;
-  padding: 15px 30px;
+  padding: 18px 35px;
   text-decoration: none;
-  font-weight: bold;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: opacity 0.3s;
 }
 
 .cafe-btn-outline {
-  border: 1px solid var(--color-cafe-oscuro);
-  color: var(--color-cafe-oscuro);
-  padding: 15px 30px;
+  color: var(--color-cafe);
   text-decoration: none;
-  font-weight: bold;
+  font-size: 13px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--color-cafe);
+  padding-bottom: 5px;
+  transition: color 0.3s;
 }
 
+.cafe-btn-fill:hover { opacity: 0.8; }
+.cafe-btn-outline:hover { color: var(--color-acento); border-color: var(--color-acento); }
+
 /* --- IMAGEN --- */
+.cafe-hero-image { position: relative; overflow: hidden; }
 .cafe-hero-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  filter: sepia(0.2); /* Sutil tono cálido para la foto */
 }
 
-/* --- RESPONSIVE --- */
+/* --- MOBILE --- */
 @media (max-width: 750px) {
   .cafe-hero-grid { grid-template-columns: 1fr; }
-  .cafe-hero-image { order: -1; height: 300px; }
-  .cafe-hero-content { text-align: center; }
-  .cafe-hero-buttons { justify-content: center; }
+  .cafe-hero-image { height: 400px; }
+  .cafe-hero-content { text-align: center; padding: 60px 20px; }
+  .cafe-hero-buttons { justify-content: center; flex-direction: column; }
 }
