@@ -120,3 +120,39 @@
   background-color: #2d1e17 !important;
   color: white !important;
 }
+
+/* Unifica el fondo de toda la página */
+body, 
+.gradient, 
+.header-wrapper, 
+.footer {
+  background-color: #fdfaf7 !important; /* El mismo crema de tu Hero */
+}
+
+/* Quita las líneas divisorias grises si quieres un look más limpio */
+.header-wrapper, 
+.footer {
+  border: none !important;
+}
+
+/* Estilo para el nombre de la tienda (Logo) */
+.header__heading-link .h2 {
+  font-family: 'Playfair Display', serif; /* Una fuente elegante */
+  text-transform: lowercase;
+  color: #2d1e17 !important;
+  letter-spacing: 1px;
+}
+
+/* Estilo para los enlaces del menú */
+.header__menu-item span {
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 13px;
+  color: #4a3728 !important;
+}
+
+@media (min-width: 750px) {
+  .cafe-hero-media {
+    padding-left: 40px; /* Separa un poco la imagen del texto */
+  }
+}
