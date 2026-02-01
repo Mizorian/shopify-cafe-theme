@@ -1,194 +1,100 @@
-/* Layout General */
-.cafe-hero-section {
-  padding: 80px 40px;
-  font-family: 'Assistant', sans-serif;
+/* --- VARIABLES Y GLOBAL --- */
+:root {
+  --color-crema: #fdfaf7;
+  --color-cafe-oscuro: #2d1e17;
+  --color-cafe-suave: #4a3728;
+  --color-acento: #a67c52;
 }
 
-.cafe-hero-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 60px;
-  align-items: center;
+body, .gradient, .header-wrapper, .footer {
+  background-color: var(--color-crema) !important;
+  color: var(--color-cafe-oscuro);
 }
 
-/* Tipografías */
-.cafe-eyebrow {
+/* --- HEADER & FOOTER UNIFICADO --- */
+.header-wrapper, .footer { border: none !important; }
+.header__menu-item, .footer__heading, .footer__link {
+  color: var(--color-cafe-suave) !important;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 12px;
-  color: #a67c52;
-  font-weight: bold;
-}
-
-.cafe-hero-title {
-  font-size: clamp(32px, 5vw, 56px);
-  color: #2d1e17;
-  margin: 10px 0;
-  line-height: 1.1;
-}
-
-/* Badges (Origen y Tueste) */
-.cafe-badges-container {
-  display: flex;
-  gap: 10px;
-  margin: 15px 0;
-}
-
-.cafe-badge-item {
-  background: #f4ece4;
-  color: #4a3728;
-  padding: 6px 14px;
-  border-radius: 50px;
   font-size: 13px;
-  font-weight: 500;
-  border: 1px solid #e5dcd3;
-}
-
-/* Variantes estilo Pill */
-.picker-label { font-size: 14px; margin-bottom: 8px; color: #666; }
-.pills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-
-.pill-option input { display: none; }
-.pill-option label {
-  display: block;
-  padding: 10px 20px;
-  border: 1px solid #4a3728;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: 0.3s;
-  font-size: 14px;
-}
-
-.pill-option input:checked + label {
-  background: #4a3728;
-  color: #fff;
-}
-
-/* Botón AJAX */
-.cafe-btn-primary {
-  margin-top: 30px;
-  width: 100%;
-  padding: 18px;
-  background: #2d1e17;
-  color: white;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.2s;
-  position: relative;
-}
-
-.cafe-btn-primary:hover { transform: translateY(-2px); opacity: 0.9; }
-
-/* Estilo para Agotado */
-.cafe-out-of-stock {
-  margin-top: 20px;
-  padding: 15px;
-  background: #fee;
-  color: #c33;
-  text-align: center;
-  font-weight: bold;
-}
-
-/* Media Queries */
-@media (max-width: 768px) {
-  .cafe-hero-wrapper { grid-template-columns: 1fr; text-align: center; }
-  .cafe-hero-media { order: -1; }
-  .cafe-badges-container { justify-content: center; }
-  .pills-grid { justify-content: center; }
-}
-
-/* Unificar Header y Footer con la estética de café */
-.header-wrapper, 
-.footer {
-  background-color: #fdfaf7 !important; /* Fondo crema */
-  border-bottom: 1px solid #e5dcd3;
-  border-top: 1px solid #e5dcd3;
-}
-
-.header__menu-item, 
-.footer__linklist-item a,
-.footer__heading {
-  color: #4a3728 !important; /* Texto marrón café */
-  font-family: 'Assistant', sans-serif;
-}
-
-/* Hacer que el botón de suscripción combine */
-.footer .newsletter-form__button {
-  background-color: #2d1e17 !important;
-  color: white !important;
-}
-
-/* Unifica el fondo de toda la página */
-body, 
-.gradient, 
-.header-wrapper, 
-.footer {
-  background-color: #fdfaf7 !important; /* El mismo crema de tu Hero */
-}
-
-/* Quita las líneas divisorias grises si quieres un look más limpio */
-.header-wrapper, 
-.footer {
-  border: none !important;
-}
-
-/* Estilo para el nombre de la tienda (Logo) */
-.header__heading-link .h2 {
-  font-family: 'Playfair Display', serif; /* Una fuente elegante */
-  text-transform: lowercase;
-  color: #2d1e17 !important;
   letter-spacing: 1px;
 }
 
-/* Estilo para los enlaces del menú */
-.header__menu-item span {
-  font-weight: 500;
-  text-transform: uppercase;
-  font-size: 13px;
-  color: #4a3728 !important;
+/* --- SECCIÓN HERO CLEAN --- */
+.cafe-hero-clean {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
 }
 
-@media (min-width: 750px) {
-  .cafe-hero-media {
-    padding-left: 40px; /* Separa un poco la imagen del texto */
-  }
-}
-
-.story-wrapper {
-  padding: 100px 20px;
-  text-align: center;
-  max-width: 800px;
+.cafe-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
-.story-title {
-  font-family: 'Playfair Display', serif; /* Esta fuente da mucha elegancia */
-  font-size: 42px;
-  color: #2d1e17;
-  margin-bottom: 20px;
+.cafe-hero-content {
+  padding: 10% 8%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.story-subtitle {
-  text-transform: uppercase;
+.cafe-label {
+  color: var(--color-acento);
+  font-weight: bold;
   letter-spacing: 3px;
-  color: #a67c52;
-  font-size: 14px;
+  font-size: 12px;
+  margin-bottom: 15px;
 }
 
-.story-btn {
-  display: inline-block;
-  margin-top: 30px;
-  padding: 12px 30px;
-  border: 1px solid #2d1e17;
-  color: #2d1e17;
+.cafe-main-title {
+  font-family: serif; /* Cambia a 'Playfair Display' si la importas */
+  font-size: clamp(32px, 5vw, 52px);
+  line-height: 1.1;
+  margin-bottom: 25px;
+}
+
+.cafe-main-text {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #5a4b3f;
+  margin-bottom: 35px;
+}
+
+/* --- BOTONES --- */
+.cafe-hero-buttons { display: flex; gap: 15px; }
+
+.cafe-btn-fill {
+  background: var(--color-cafe-oscuro);
+  color: white;
+  padding: 15px 30px;
   text-decoration: none;
-  transition: 0.3s;
+  font-weight: bold;
 }
 
-.story-btn:hover {
-  background: #2d1e17;
-  color: #fff;
+.cafe-btn-outline {
+  border: 1px solid var(--color-cafe-oscuro);
+  color: var(--color-cafe-oscuro);
+  padding: 15px 30px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* --- IMAGEN --- */
+.cafe-hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 750px) {
+  .cafe-hero-grid { grid-template-columns: 1fr; }
+  .cafe-hero-image { order: -1; height: 300px; }
+  .cafe-hero-content { text-align: center; }
+  .cafe-hero-buttons { justify-content: center; }
 }
