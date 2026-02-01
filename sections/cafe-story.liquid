@@ -1,0 +1,23 @@
+<section class="cafe-story" style="background-color: {{ section.settings.bg_color }};">
+  <div class="story-wrapper">
+    <div class="story-text">
+      <span class="story-subtitle">{{ section.settings.subtitle }}</span>
+      <h2 class="story-title">{{ section.settings.title }}</h2>
+      <div class="story-content">{{ section.settings.content }}</div>
+      <a href="/collections/all" class="story-btn">Explorar el Catálogo</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Historia de la Marca",
+  "settings": [
+    { "type": "text", "id": "subtitle", "label": "Subtítulo", "default": "Desde el origen" },
+    { "type": "text", "id": "title", "label": "Título", "default": "Más que café, una cultura" },
+    { "type": "richtext", "id": "content", "label": "Contenido", "default": "<p>Seleccionamos granos de fincas sostenibles para llevarte una taza llena de historia.</p>" },
+    { "type": "color", "id": "bg_color", "label": "Fondo", "default": "#fdfaf7" }
+  ],
+  "presets": [{ "name": "Historia de la Marca" }]
+}
+{% endschema %}

@@ -156,3 +156,39 @@ body,
     padding-left: 40px; /* Separa un poco la imagen del texto */
   }
 }
+
+.story-wrapper {
+  padding: 100px 20px;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.story-title {
+  font-family: 'Playfair Display', serif; /* Esta fuente da mucha elegancia */
+  font-size: 42px;
+  color: #2d1e17;
+  margin-bottom: 20px;
+}
+
+.story-subtitle {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #a67c52;
+  font-size: 14px;
+}
+
+.story-btn {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 12px 30px;
+  border: 1px solid #2d1e17;
+  color: #2d1e17;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.story-btn:hover {
+  background: #2d1e17;
+  color: #fff;
+}
