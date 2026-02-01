@@ -53,11 +53,10 @@
       "type": "cafe-hero",
       "name": "Café Hero Especial",
       "settings": {
-        "badge_text": "Tostado localmente",
+        "label": "Molienda Artesanal",
         "title": "Despierta tus sentidos",
-        "description": "",
-        "featured_product": "camiseta-de-entrenamiento",
-        "bg_color": "#fdfaf7"
+        "text": "<p>Seleccionamos historias de origen único para llevar un tributo a la tierra hasta tu taza.</p>",
+        "image": "shopify://shop_images/cafeteria.png"
       }
     }
   },
